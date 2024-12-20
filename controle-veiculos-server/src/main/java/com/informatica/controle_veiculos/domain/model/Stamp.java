@@ -1,4 +1,6 @@
-package com.informatica.controle_veiculos.model;
+package com.informatica.controle_veiculos.domain.model;
+
+import java.sql.Date;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,11 +33,14 @@ public class Stamp {
   @Column(name = "id", updatable = false, unique = true, nullable = false)
   private Long id;
 
-  @Column(name = "stamp_number", nullable = false)
-  private Long stampNumber;
+  @Column(name = "number", nullable = false)
+  private Long number;
 
   @Column(name = "status", nullable = false)
   private String status;
+
+  @Column(name = "expiration", nullable = false)
+  private Date expiration;
 
   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private Vehicle vehicle;

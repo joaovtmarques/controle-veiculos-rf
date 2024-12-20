@@ -1,4 +1,4 @@
-package com.informatica.controle_veiculos.model;
+package com.informatica.controle_veiculos.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

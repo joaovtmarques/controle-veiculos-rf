@@ -1,4 +1,4 @@
-package com.informatica.controle_veiculos.model;
+package com.informatica.controle_veiculos.domain.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

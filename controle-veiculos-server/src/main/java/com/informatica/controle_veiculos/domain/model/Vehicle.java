@@ -1,4 +1,4 @@
-package com.informatica.controle_veiculos.model;
+package com.informatica.controle_veiculos.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,6 +42,9 @@ public class Vehicle {
 
   @Column(name = "type", nullable = false)
   private String type;
+
+  @Column(name = "licensing", nullable = false)
+  private Integer licensing;
 
   @JsonIgnore
   @ManyToOne

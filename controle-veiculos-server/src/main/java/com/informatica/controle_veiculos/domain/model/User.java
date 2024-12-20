@@ -1,5 +1,6 @@
-package com.informatica.controle_veiculos.model;
+package com.informatica.controle_veiculos.domain.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
@@ -55,6 +56,9 @@ public class User {
 
   @Column(name = "email", nullable = false)
   private String email;
+
+  @Column(name = "drivers_license_expiration", nullable = false)
+  private Date driverLicenseExpiration;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @OnDelete(action = OnDeleteAction.CASCADE)
