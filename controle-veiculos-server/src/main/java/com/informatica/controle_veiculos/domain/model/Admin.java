@@ -30,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "users")
+@Table(name = "admins")
 public class Admin implements UserDetails {
 
   @EqualsAndHashCode.Include
