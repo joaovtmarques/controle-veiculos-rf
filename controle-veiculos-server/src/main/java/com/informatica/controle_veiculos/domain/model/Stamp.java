@@ -1,14 +1,14 @@
 package com.informatica.controle_veiculos.domain.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -40,12 +40,14 @@ public class Stamp {
   private String status;
 
   @Column(name = "expiration", nullable = false)
-  private Date expiration;
+  private LocalDate expiration;
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+  @JoinColumn(name = "vehicle_id", nullable = false, updatable = false)
   private Vehicle vehicle;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false, updatable = false)
   private User user;
 
 }

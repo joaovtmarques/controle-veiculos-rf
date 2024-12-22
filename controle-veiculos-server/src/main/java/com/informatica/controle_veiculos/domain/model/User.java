@@ -1,6 +1,6 @@
 package com.informatica.controle_veiculos.domain.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
@@ -58,13 +58,13 @@ public class User {
   private String email;
 
   @Column(name = "drivers_license_expiration", nullable = false)
-  private Date driverLicenseExpiration;
+  private LocalDate driverLicenseExpiration;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Vehicle> vehicles;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Stamp> stamps;
 
