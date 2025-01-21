@@ -28,5 +28,4 @@ public class CreateVehicleController implements ControllerProtocol<CreateVehicle
   public ResponseEntity<Vehicle> handle(@RequestBody @Valid CreateVehicleRequestDTO vehicleRequestDTO) {
     return ResponseEntity.status(201).body(createVehicle.execute(vehicleRequestDTO));
   }
-
 }

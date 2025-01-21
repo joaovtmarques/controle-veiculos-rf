@@ -2,6 +2,8 @@ package com.informatica.controle_veiculos.domain.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,10 +44,12 @@ public class Stamp {
   @Column(name = "expiration", nullable = false)
   private LocalDate expiration;
 
+  @JsonIgnore
   @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
   @JoinColumn(name = "vehicle_id", nullable = false, updatable = false)
   private Vehicle vehicle;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   private User user;
