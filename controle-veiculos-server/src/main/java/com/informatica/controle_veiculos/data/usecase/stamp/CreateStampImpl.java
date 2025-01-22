@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.informatica.controle_veiculos.data.dto.stamp.CreateStampRequestDTO;
 import com.informatica.controle_veiculos.data.exception.AlreadyExistsException;
+import com.informatica.controle_veiculos.data.exception.BadRequestException;
 import com.informatica.controle_veiculos.data.exception.NotFoundException;
 import com.informatica.controle_veiculos.domain.model.Stamp;
 import com.informatica.controle_veiculos.domain.model.User;
@@ -57,7 +58,12 @@ public class CreateStampImpl implements CreateStampUseCase {
     char[] plate = vehicle.get().getPlate().toCharArray();
     char lastCharOfPlate = plate[plate.length - 1];
 
-    int year = 2025;
+    int year = vehicle.get().getLicensing();
+
+    if (year < 2024) {
+      throw new BadRequestException("O licenciamento do veículo está atrasado.");
+    }
+
     int month = Integer.parseInt(getMonth(lastCharOfPlate));
 
     YearMonth expLicensing = YearMonth.of(year, month);
