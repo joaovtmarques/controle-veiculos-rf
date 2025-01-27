@@ -82,7 +82,7 @@ public class CreateStampFileImpl implements CreateStampFileUseCase {
     document.replace("{plate}", vehicle.get().getPlate(), false, true);
 
     String finalFilePath = "";
-    File dir = new File("tmp/" + user.get().getRank() + " " + user.get().getWarName());
+    File dir = new File("tmp/stamps/" + user.get().getRank() + " " + user.get().getWarName());
     if (!dir.exists())
       dir.mkdirs();
 
