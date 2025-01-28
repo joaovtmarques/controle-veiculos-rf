@@ -40,6 +40,7 @@ public class SecurityConfig {
               .requestMatchers(HttpMethod.GET, "/api/v1/vehicles").permitAll()
               .requestMatchers(HttpMethod.POST, "/api/v1/stamps").permitAll()
               .requestMatchers(HttpMethod.GET, "/api/v1/stamps").permitAll()
+              .requestMatchers(HttpMethod.POST, "/api/v1/docs").permitAll()
               .anyRequest().permitAll())
           .cors(Customizer.withDefaults())
           .csrf(csrf -> csrf.disable())
