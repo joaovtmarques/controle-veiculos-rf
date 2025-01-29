@@ -2,8 +2,12 @@ package com.informatica.controle_veiculos.domain.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,13 +49,15 @@ public class Stamp {
   private LocalDate expiration;
 
   @JsonIgnore
-  @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "vehicle_id", nullable = false, updatable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Vehicle vehicle;
 
   @JsonIgnore
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private User user;
 
 }
