@@ -19,7 +19,7 @@ body {
     --primary-foreground: 0 0% 100%; /* #FFFFFF */
     --secondary: 150 100% 13%; /* #00420C */
     --secondary-foreground: 0 0% 100%; /* #FFFFFF */
-    --muted: 0 0% 96%; /* #F4F4F4 */
+    --muted: 0 0% 68%; /* #F4F4F4 */
     --muted-foreground: 0 0% 68%; /* #ADADAD */
     --accent: 150 100% 13%; /* #00420C */
     --accent-foreground: 0 0% 100%; /* #FFFFFF */
@@ -39,11 +39,11 @@ body {
 
   .dark {
     --background: 0 0% 20%; /* #333333 */
-    --foreground: 0 0% 96%; /* #F4F4F4 */
+    --foreground: 0 0% 68%; /* #F4F4F4 */
     --card: 0 0% 15%; /* Um tom mais escuro para o modo dark */
-    --card-foreground: 0 0% 96%; /* #F4F4F4 */
+    --card-foreground: 0 0% 68%; /* #F4F4F4 */
     --popover: 0 0% 15%; /* Um tom mais escuro para o popover */
-    --popover-foreground: 0 0% 96%; /* #F4F4F4 */
+    --popover-foreground: 0 0% 68%; /* #F4F4F4 */
     --primary: 137 87% 23%; /* #0E7321 */
     --primary-foreground: 0 0% 100%; /* #FFFFFF */
     --secondary: 150 100% 13%; /* #00420C */
@@ -61,7 +61,7 @@ body {
     --chart-1: 0 100% 68%; /* #FF5656 */
     --chart-2: 137 87% 23%; /* #0E7321 */
     --chart-3: 150 100% 13%; /* #00420C */
-    --chart-4: 0 0% 96%; /* #F4F4F4 */
+    --chart-4: 0 0% 68%; /* #F4F4F4 */
     --chart-5: 0 0% 68%; /* #ADADAD */
   }
 }
