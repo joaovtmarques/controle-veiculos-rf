@@ -17,6 +17,7 @@ import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
 import { createUser } from "@/services/user/create-user";
 import { createVehicle } from "@/services/vehicles/create-vehicle";
+import { createStamp } from "@/services/stamp/create-stamp";
 
 export const RegistrationForm = () => {
   const fileArr = [] as File[];
@@ -47,21 +48,25 @@ export const RegistrationForm = () => {
     setIsLoading(true);
     await createUser(data)
       .then(async (response) => {
-        await createVehicle(data, response.id).then((response) => {
-          setIsLoading(false);
-          if (response) {
-            toast.success(
-              "Cadastro enviado com sucesso! Aguarde entrarmos em contato pelo e-mail ou o prazo de 7 dias para ficar pronto.",
-              {
-                description: "Clique em 'confirmar' para finalizar.",
-                action: {
-                  label: "Confirmar",
-                  onClick: () => window.location.reload(),
-                },
-                duration: 10000,
-              }
-            );
-          }
+        const userId = response.id;
+        await createVehicle(data, userId).then(async (response) => {
+          const vehicleId = response.id;
+          await createStamp(userId, vehicleId).then(() => {
+            setIsLoading(false);
+            if (response) {
+              toast.success(
+                "Cadastro enviado com sucesso! Aguarde entrarmos em contato pelo e-mail ou o prazo de 7 dias para ficar pronto.",
+                {
+                  description: "Clique em 'confirmar' para finalizar.",
+                  action: {
+                    label: "Confirmar",
+                    onClick: () => window.location.reload(),
+                  },
+                  duration: 10000,
+                }
+              );
+            }
+          });
         });
       })
       .catch((error) => {

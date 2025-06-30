@@ -1,17 +1,12 @@
-import type { Vehicle } from "@/models/vehicle";
-import type { FormData } from "@/schemas/form-schema";
+import type { Stamp } from "@/models/stamp";
 import { fetchWrapper } from "@/utils/fetch-wrapper";
 
-export const createVehicle = async (data: FormData, userId: number) => {
-  const response = await fetchWrapper<Promise<Vehicle>>(`vehicles`, {
+export const createStamp = async (userId: number, vehicleId: number) => {
+  const response = await fetchWrapper<Promise<Stamp>>(`stamps`, {
     method: "POST",
     body: JSON.stringify({
-      userId: userId,
-      model: data.model,
-      plate: data.plate,
-      color: data.color,
-      type: data.type,
-      licensing: data.licensing,
+      userId: Number(userId),
+      vehicleId: Number(vehicleId),
     }),
     headers: new Headers({
       "content-type": "application/json",

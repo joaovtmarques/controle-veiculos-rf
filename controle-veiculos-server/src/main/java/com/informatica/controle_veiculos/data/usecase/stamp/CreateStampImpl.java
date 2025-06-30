@@ -71,7 +71,7 @@ public class CreateStampImpl implements CreateStampUseCase {
 
     int month = Integer.parseInt(getMonth(vehicle.get().getType(), lastCharOfPlate));
 
-    YearMonth expLicensing = YearMonth.of(year, month);
+    YearMonth expLicensing = YearMonth.of((year + 1), month);
     LocalDate expiration = expLicensing.atEndOfMonth();
 
     Stamp stampToSave = stampDTO.toModel(vehicle.get(), user.get(), number, expiration, "U_ANALYSIS");
@@ -85,47 +85,29 @@ public class CreateStampImpl implements CreateStampUseCase {
   }
 
   private String getMonth(String type, char lastCharOfPlate) {
-    if (type.equals("car")) {
-      switch (lastCharOfPlate) {
-        case '1':
-        case '2':
-          return "4";
-        case '3':
-        case '4':
-          return "5";
-        case '5':
-        case '6':
-          return "6";
-        case '7':
-        case '8':
-          return "7";
-        case '9':
-        case '0':
-          return "8";
-        default:
-          return "";
-      }
-    } else {
-      switch (lastCharOfPlate) {
-        case '1':
-        case '2':
-          return "7";
-        case '3':
-        case '4':
-          return "8";
-        case '5':
-        case '6':
-          return "9";
-        case '7':
-        case '8':
-          return "10";
-        case '9':
-          return "11";
-        case '0':
-          return "12";
-        default:
-          return "";
-      }
+    if (!Character.isDigit(lastCharOfPlate)) {
+      throw new BadRequestException("O último caractere da placa deve ser um dígito numérico");
+    }
+
+    switch (lastCharOfPlate) {
+      case '1':
+      case '2':
+        return "7";
+      case '3':
+      case '4':
+        return "8";
+      case '5':
+      case '6':
+        return "9";
+      case '7':
+      case '8':
+        return "10";
+      case '9':
+        return "11";
+      case '0':
+        return "12";
+      default:
+        return "";
     }
   }
 }

@@ -30,12 +30,13 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
     try {
       httpSecurity
-          .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+          .csrf(csrf -> csrf.disable())
           .authorizeHttpRequests(authorize -> authorize
               .requestMatchers(HttpMethod.POST, "/api/v1/admins").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.GET, "/api/v1/admins").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
               .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+              .requestMatchers(HttpMethod.POST, "/api/v1/stamps").permitAll()
               .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.DELETE,
                   "/api/v1/users/{userId}")
@@ -48,7 +49,6 @@ public class SecurityConfig {
               .hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.POST, "/api/v1/vehicles").permitAll()
               .requestMatchers(HttpMethod.GET, "/api/v1/vehicles").hasAuthority("ADMIN")
-              .requestMatchers(HttpMethod.POST, "/api/v1/stamps").permitAll()
               .requestMatchers(HttpMethod.GET, "/api/v1/stamps").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.POST, "/api/v1/docs").permitAll()
               .anyRequest().permitAll())
