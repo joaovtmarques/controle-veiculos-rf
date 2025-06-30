@@ -44,7 +44,9 @@ export const formSchema = z.object({
   type: z.enum(["car", "motorcycle"], {
     required_error: "Escolha o tipo do veículo",
   }),
-  licensing: z.date({ required_error: "Escolha a data do licenciamento" }),
+  licensing: z.string({
+    required_error: "Informe o licenciamento do veículo",
+  }),
   driverLicenseExpiration: z.date({
     required_error: "Escolha a data de vencimento da CNH",
   }),

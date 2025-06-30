@@ -1,4 +1,4 @@
-export interface stamp {
+export interface Stamp {
   id: number;
   number: number;
   status: string;

@@ -16,6 +16,7 @@ import declaracaoPDF from "../../public/declaracao-cia.pdf";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
 import { createUser } from "@/services/user/create-user";
+import { createVehicle } from "@/services/vehicles/create-vehicle";
 
 export const RegistrationForm = () => {
   const fileArr = [] as File[];
@@ -37,7 +38,7 @@ export const RegistrationForm = () => {
       plate: "",
       color: undefined,
       type: undefined,
-      licensing: undefined,
+      licensing: "",
       driverLicenseExpiration: undefined,
     },
   });
@@ -45,21 +46,23 @@ export const RegistrationForm = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     await createUser(data)
-      .then((response) => {
-        setIsLoading(false);
-        if (response) {
-          toast.success(
-            "Cadastro enviado com sucesso! Aguarde entrarmos em contato pelo e-mail ou o prazo de 7 dias para ficar pronto.",
-            {
-              description: "Clique em 'confirmar' para finalizar.",
-              action: {
-                label: "Confirmar",
-                onClick: () => window.location.reload(),
-              },
-              duration: 10000,
-            }
-          );
-        }
+      .then(async (response) => {
+        await createVehicle(data, response.id).then((response) => {
+          setIsLoading(false);
+          if (response) {
+            toast.success(
+              "Cadastro enviado com sucesso! Aguarde entrarmos em contato pelo e-mail ou o prazo de 7 dias para ficar pronto.",
+              {
+                description: "Clique em 'confirmar' para finalizar.",
+                action: {
+                  label: "Confirmar",
+                  onClick: () => window.location.reload(),
+                },
+                duration: 10000,
+              }
+            );
+          }
+        });
       })
       .catch((error) => {
         toast.error(error.message);
@@ -220,17 +223,10 @@ export const RegistrationForm = () => {
               />
             )}
           />
-
-          <Controller
+          <FormInput
             control={methods.control}
             name="licensing"
-            render={({ field }) => (
-              <DatePickerDemo
-                label="Licenciamento do veículo"
-                value={field.value}
-                onChange={field.onChange}
-              />
-            )}
+            label="Licenciamento do veículo"
           />
 
           <Controller
