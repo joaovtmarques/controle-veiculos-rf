@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale"; // Importe o locale pt-BR
 import { Calendar as CalendarIcon } from "lucide-react";
 
-import { cn } from "@/libs/utils";
+import { cn } from "@/utils/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {

@@ -8,18 +8,20 @@ import { DatePickerDemo } from "@/components/ui/date-picker";
 import { formSchema, type FormData } from "@/schemas/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-
-import { XCircle } from "lucide-react";
+import { LoaderIcon, XCircle } from "lucide-react";
 import { useRef, useState, type ChangeEvent } from "react";
+import { toast } from "sonner";
 import situacaoVeiculoPDF from "../../public/cadastramento-veiculos.pdf";
 import declaracaoPDF from "../../public/declaracao-cia.pdf";
-import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
+import { Separator } from "./ui/separator";
+import { createUser } from "@/services/user/create-user";
 
 export const RegistrationForm = () => {
   const fileArr = [] as File[];
 
   const [docs, setDocs] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const methods = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -40,8 +42,28 @@ export const RegistrationForm = () => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
+    await createUser(data)
+      .then((response) => {
+        setIsLoading(false);
+        if (response) {
+          toast.success(
+            "Cadastro enviado com sucesso! Aguarde entrarmos em contato pelo e-mail ou o prazo de 7 dias para ficar pronto.",
+            {
+              description: "Clique em 'confirmar' para finalizar.",
+              action: {
+                label: "Confirmar",
+                onClick: () => window.location.reload(),
+              },
+              duration: 10000,
+            }
+          );
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   const refFile = useRef<HTMLInputElement>(null);
@@ -327,7 +349,11 @@ export const RegistrationForm = () => {
           </div>
 
           <Button className="w-full mt-8" type="submit">
-            Enviar
+            {isLoading ? (
+              <LoaderIcon className="mr-2 h-4 w-4 animate-spin text-white" />
+            ) : (
+              "Enviar"
+            )}
           </Button>
         </div>
       </form>

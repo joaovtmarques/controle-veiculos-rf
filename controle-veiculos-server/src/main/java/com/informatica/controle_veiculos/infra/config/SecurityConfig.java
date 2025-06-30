@@ -30,15 +30,22 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
     try {
       httpSecurity
+          .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
           .authorizeHttpRequests(authorize -> authorize
               .requestMatchers(HttpMethod.POST, "/api/v1/admins").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.GET, "/api/v1/admins").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
               .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
               .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ADMIN")
-              .requestMatchers(HttpMethod.DELETE, "/api/v1/users/{userId}").hasAuthority("ADMIN")
-              .requestMatchers(HttpMethod.GET, "/api/v1/users/vehicles/{userId}").hasAuthority("ADMIN")
-              .requestMatchers(HttpMethod.GET, "/api/v1/users/stamps/{userId}").hasAuthority("ADMIN")
+              .requestMatchers(HttpMethod.DELETE,
+                  "/api/v1/users/{userId}")
+              .hasAuthority("ADMIN")
+              .requestMatchers(HttpMethod.GET,
+                  "/api/v1/users/vehicles/{userId}")
+              .hasAuthority("ADMIN")
+              .requestMatchers(HttpMethod.GET,
+                  "/api/v1/users/stamps/{userId}")
+              .hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.POST, "/api/v1/vehicles").permitAll()
               .requestMatchers(HttpMethod.GET, "/api/v1/vehicles").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.POST, "/api/v1/stamps").permitAll()
@@ -46,7 +53,6 @@ public class SecurityConfig {
               .requestMatchers(HttpMethod.POST, "/api/v1/docs").permitAll()
               .anyRequest().permitAll())
           .cors(Customizer.withDefaults())
-          .csrf(csrf -> csrf.disable())
           .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
           .addFilterAfter(new NotFoundFilter(), SecurityFilter.class);

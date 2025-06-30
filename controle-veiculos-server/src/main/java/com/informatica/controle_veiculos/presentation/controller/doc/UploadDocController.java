@@ -26,7 +26,7 @@ public class UploadDocController {
   private UploadDocUseCase uploadDoc;
 
   @PostMapping
-  public ResponseEntity<String> handle(@RequestBody @Valid @ModelAttribute UploadDocRequestDTO uploadDocDTO)
+  public ResponseEntity<String> handle(@Valid @ModelAttribute UploadDocRequestDTO uploadDocDTO)
       throws IOException {
     return ResponseEntity.ok(uploadDoc.execute(uploadDocDTO));
   }

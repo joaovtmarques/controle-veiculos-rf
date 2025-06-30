@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,25 +31,25 @@ public class UploadDocImpl implements UploadDocUseCase {
 
   @Override
   public String execute(UploadDocRequestDTO uploadDocDTO) throws IOException {
-    User userExists = userRepository.findById(uploadDocDTO.userId()).get();
-    Vehicle vehicleExists = vehicleRepository.findById(uploadDocDTO.vehicleId()).get();
+    Optional<User> userExists = userRepository.findById(uploadDocDTO.userId());
+    Optional<Vehicle> vehicleExists = vehicleRepository.findById(uploadDocDTO.vehicleId());
 
-    if (userExists.getId() == null) {
+    if (userExists.isEmpty()) {
       throw new NotFoundException("O dono dos documentos não foi encontrado.");
     }
 
-    if (vehicleExists.getId() == null) {
+    if (vehicleExists.isEmpty()) {
       throw new NotFoundException("O veículo não foi encontrado.");
     }
 
-    String uploadDir = "tmp/uploads/" + userExists.getRank() + userExists.getWarName();
+    String uploadDir = "tmp/uploads/" + userExists.get().getRank() + userExists.get().getWarName();
     createFoldIfNotExists(uploadDir);
 
-    saveDoc(uploadDocDTO.cnh(), uploadDir, "CNH-" + vehicleExists.getId() + ".pdf");
-    saveDoc(uploadDocDTO.crlv(), uploadDir, "CRLV-" + vehicleExists.getId() + ".pdf");
+    saveDoc(uploadDocDTO.cnh(), uploadDir, "CNH-" + vehicleExists.get().getId() + ".pdf");
+    saveDoc(uploadDocDTO.crlv(), uploadDir, "CRLV-" + vehicleExists.get().getId() + ".pdf");
 
     if (uploadDocDTO.authorization() != null && !uploadDocDTO.authorization().isEmpty()) {
-      saveDoc(uploadDocDTO.authorization(), uploadDir, "AUTORIZACAO-" + vehicleExists.getId() + ".pdf");
+      saveDoc(uploadDocDTO.authorization(), uploadDir, "AUTORIZACAO-" + vehicleExists.get().getId() + ".pdf");
     }
 
     return "Os documentos foram enviados com sucesso.";
